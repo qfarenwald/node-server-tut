@@ -3,7 +3,7 @@ const http = require("http");
 const url = require('url');
 const server = http.createServer();
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log('The HTTP server is listening at Port 3000.');
 });
 
@@ -34,6 +34,7 @@ server.on('request', (request, response) => {
 });
 
 // an array provided by the tutorial
+// treat like a database
 let messages = [
   { 'id': 1, 'user': 'brittany storoz', 'message': 'hi there!' },
   { 'id': 2, 'user': 'bob loblaw', 'message': 'check out my law blog' },
@@ -49,7 +50,8 @@ const getAllMessages = response => {
 
 // function 2 I need to write
 const addMessage = (newMessage, response) => {
+  messages.push(newMessage);
   response.writeHead(201, { 'Content-Type': 'text/plain' });
-  response.write(JSON.stringify([...messages, newMessage]));
+  response.write(JSON.stringify(newMessage));
   response.end();
 }
